@@ -1,7 +1,6 @@
 use std::env;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Write};
-use std::io::stdout;
+use std::io::{BufRead, BufReader};
 
 fn possiblitys(board: &Vec<Vec<u8>>, row: usize, col: usize) -> Vec<u8> {
     let square_row = row/3*3;
