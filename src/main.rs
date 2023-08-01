@@ -1,3 +1,4 @@
+use core::panic;
 use std::env;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -45,8 +46,19 @@ fn main() {
     let reader = BufReader::new(file);
     let core: Vec<Vec<u8>> = reader.lines().map(|line| {
         let line = line.unwrap();
-        line.trim().chars().map(|c| c.to_digit(10).unwrap() as u8).collect()
+        if line.len() != 9 {
+            panic!("invalid row length");
+        }
+        line.trim().chars().map(|c| 
+            match c.to_digit(10) {
+                Some(d) => d as u8,
+                None => panic!("invalid character"),
+            }).collect()
     }).collect();
+
+    if core.len() != 9 {
+        panic!("invalid number of rows provided in file");
+    }
 
     let mut solved: Vec<Vec<u8>> = core.clone();
     recursive_solve(&mut solved, 0, &core);
