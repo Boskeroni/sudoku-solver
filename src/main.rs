@@ -1,6 +1,7 @@
 use std::env;
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
+use std::io::stdout;
 
 fn possiblitys(board: &Vec<Vec<u8>>, row: usize, col: usize) -> Vec<u8> {
     let square_row = row/3*3;
@@ -50,7 +51,16 @@ fn main() {
 
     let mut solved: Vec<Vec<u8>> = core.clone();
     recursive_solve(&mut solved, 0, &core);
-    for line in solved {
-        println!("{line:?}")
+    for (i, line) in solved.iter().enumerate() {
+        for (j, digit) in line.iter().enumerate() {
+            print!("{digit}");
+            if j % 3 == 2 && j != 8 {
+                print!("|")
+            }
+        }
+        println!("");
+        if i % 3 == 2 && i != 8 {
+            println!("---+---+---");
+        }
     }
 }
